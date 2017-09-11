@@ -6,76 +6,75 @@ import { LeafletTileLayer } from '../../@ggcity/leaflet-tile-layer/leaflet-tile-
 
 import { disableClickPropagation } from '../../leaflet/src/dom/DomEvent.js';
 
-import { MDCPersistentDrawer, MDCPersistentDrawerFoundation, util } from '../../@material/drawer';
-import {MDCRipple, MDCRippleFoundation} from '../../@material/ripple';
-import '../../material-components-web/dist/material-components-web.min.css';
-
 export class LeafletMapSelector extends PolymerElement {
   static get template() {
     return `
       <style>
         :host {
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          z-index: 900;
         }
 
-        aside.mdc-persistent-drawer {
-          height: 100%;
-          z-index: 999;
+        ul#slide-out {
+          z-index: 9999;
           cursor: default;
         }
 
-        aside, aside .mdc-persistent-drawer__drawer, aside .mdc-persistent-drawer--open {
-          width: 300px;
+        h1.title {
+          font-size: 2.28rem;
         }
 
-        .mdc-persistent-drawer__content {
+        ul.side-bar {
           padding: 10px;
         }
 
-        .mdc-card:not(:last-child) {
-          margin-bottom: 15px;
+        .side-nav .collapsible-body {
+          padding: 10px;
         }
 
-        .mdc-card__title {
-          cursor: pointer;
+        button#basemap-switcher {
+          position: absolute;
+          bottom: 15px;
+          right: 15px;
+          width: 160px;
+          height: 90px;
+          background-color: pink;
+          z-index: 9000;
         }
-
       </style>
 
-      <aside id="leaflet-map-selector-drawer" class="mdc-persistent-drawer mdc-typography">
-        <nav class="mdc-persistent-drawer__drawer">
-          <header class="mdc-persistent-drawer__header">
-            <div class="mdc-persistent-drawer__header-content">
-              City of Garden Grove
-            </div>
-          </header>
-          
-          <div class="mdc-persistent-drawer__content">
-            <template is="dom-repeat" items="{{mapsList}}">
-              <div class="mdc-card">
-                <section class="mdc-card__primary">
-                  <h1 class="mdc-card__title mdc-card__title--large" on-click="handleMapSelect">[[item.name]]</h1>
-                </section>
-                <section class="mdc-card__supporting-text">[[item.description]]</section>
-                <section class="mdc-card__actions">
-                  <button class="mdc-button mdc-button--compact mdc-button__action">Download</button>
-                  <div class="mdc-switch" style="display: inline">
-                    <input type="checkbox" id="[[item.machineName]]" class="mdc-switch__native-control" />
-                    <div class="mdc-switch__background">
-                      <div class="mdc-switch__knob"></div>
-                    </div>
-                  </div>
-                </section>
-              </div>
-            </template>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+      <ul id="slide-out" class="side-nav fixed side-bar">
+        <li>
+          <h1 class="title">City of Garden Grove Public Maps</h1>
+        </li>
+        <!--li>
+          <div class="card">
+            <input type="text">
           </div>
-          
-        </nav>
-      </aside>
+        </li-->
+        <li>
+          <ul class="collapsible" data-collapsible="accordion">
+            <template is="dom-repeat" items="{{mapsList}}">
+              <li>
+                <div class="collapsible-header" on-click="handleMapSelect">
+                  [[item.name]]
+                </div>
+                <div class="collapsible-body">
+                  <ul>
+                    <template is="dom-repeat" items="{{item.layers}}" as="layer">
+                      <li><a href="#">[[layer]]</a></li>
+                    </template>
+                  </ul>
+                </div>
+              </li>
+            </template>
+          </ul>
+        </li>
+      </ul>
+
+      <button id="basemap-switcher" on-click="switchBasemap">
+        Aerial Toggle
+      </button>
 
       <leaflet-map
         map="{{map}}"
@@ -90,6 +89,7 @@ export class LeafletMapSelector extends PolymerElement {
           map="{{map}}"
           url="[[baseSource]]"
           format="[[baseFormat]]"
+          layers="[[baseLayers]]"
           attribution="&copy; OpenStreetMap">
         </leaflet-tile-layer>
 
@@ -193,25 +193,25 @@ export class LeafletMapSelector extends PolymerElement {
   connectedCallback() {
     super.connectedCallback();
 
-    disableClickPropagation(this.$['leaflet-map-selector-drawer']);
+    // this.drawer = new MDCPersistentDrawer(this.shadowRoot.querySelector('.mdc-persistent-drawer'));
+    // this.drawer.open = true;
 
-    this.drawer = new MDCPersistentDrawer(this.shadowRoot.querySelector('.mdc-persistent-drawer'));
-    this.drawer.open = true;
+    // // FIXME: hacky way to get ripple attached
+    // this.shadowRoot.addEventListener("dom-change", function(event){
+    //   if (this._rippleInitialized) return;
 
-    // FIXME: hacky way to get ripple attached
-    this.shadowRoot.addEventListener("dom-change", function(event){
-      if (this._rippleInitialized) return;
-
-      let rippleNodes = this.shadowRoot.querySelectorAll('.ripple');
-      for (let i = 0; i < rippleNodes.length; i++) {
-        new MDCRipple(rippleNodes[i]);
-        this._rippleInitialized = true;
-      }
-    }.bind(this));
+    //   let rippleNodes = this.shadowRoot.querySelectorAll('.ripple');
+    //   for (let i = 0; i < rippleNodes.length; i++) {
+    //     new MDCRipple(rippleNodes[i]);
+    //     this._rippleInitialized = true;
+    //   }
+    // }.bind(this));
 
     // FIXME: hacky hardcoded initial view
+    this._selectedBasemap = 0;
     this.baseSource = this.baseMaps[0].source;
     this.baseFormat = this.baseMaps[0].format;
+    this.baseLayers = this.baseMaps[0].layers;
     this.overlaySource = this.mapsList[0].source;
     this.overlayLayers = this.mapsList[0].layers;
   }
@@ -224,6 +224,13 @@ export class LeafletMapSelector extends PolymerElement {
     if (selectedMap.resetViewOnSelect) {
       this.map.flyTo(selectedMap.initialCenter, selectedMap.initialZoom);
     }
+  }
+
+  switchBasemap() {
+    let idx = ++this._selectedBasemap % 2;
+    this.baseSource = this.baseMaps[idx].source;
+    this.baseFormat = this.baseMaps[idx].format;
+    this.baseLayers = this.baseMaps[idx].layers;
   }
 }
 
