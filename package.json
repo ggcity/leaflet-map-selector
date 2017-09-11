@@ -1,0 +1,23 @@
+{
+  "name": "@ggcity/leaflet-map-selector",
+  "version": "0.1.0",
+  "description": "UI for switching groups of map overlays",
+  "main": "index.js",
+  "repository": "https://github.com/ggcity/leaflet-map-selector",
+  "author": "Rachot Moragraan",
+  "license": "GPL-3.0",
+  "flat": true,
+  "dependencies": {
+    "@ggcity/leaflet-map": "^0.2.0",
+    "@ggcity/leaflet-wms": "^0.2.0",
+    "@polymer/polymer": "next",
+    "material-components-web": "^0.20.0",
+    "materialize-css": "^0.100.2"
+  },
+  "devDependencies": {
+    "leaflet": "^1.2.0"
+  },
+  "resolutions": {
+    "@material/typography": "0.3.0"
+  }
+}
