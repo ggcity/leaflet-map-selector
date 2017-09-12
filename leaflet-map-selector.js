@@ -11,23 +11,34 @@ export class LeafletMapSelector extends PolymerElement {
     return `
       <style>
         :host {
+          font-family: 'Lato', sans-serif;
         }
 
-        ul#slide-out {
+        main {
+          position: absolute;
+          left: 15px;
+          top: 15px;
+          bottom: 15px;
+          width: 300px;
           z-index: 9999;
-          cursor: default;
+
+          background-color: #fff;
         }
 
-        h1.title {
-          font-size: 2.28rem;
-        }
-
-        ul.side-bar {
+        header#page-title {
           padding: 10px;
+          background-color: #007bff;
+          height: 150px;
         }
 
-        .side-nav .collapsible-body {
-          padding: 10px;
+        header#page-title h1 {
+          color: #fff;
+          font-weight: 900;
+        }
+
+        section#maps {
+          overflow: auto;
+          padding-bottom: 5px;
         }
 
         button#basemap-switcher {
@@ -41,23 +52,62 @@ export class LeafletMapSelector extends PolymerElement {
         }
       </style>
 
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 
-      <ul id="slide-out" class="side-nav fixed side-bar">
+      <main class="card">
+        <header id="page-title" class="card-img-top d-flex align-items-end">
+          <h1 class="h2">City of Garden Grove Public Maps</h1>
+        </header>
+          
+        <section id="search-section" class="input-group">
+          <input type="text" name="search" id="search" class="form-control rounded-0" placeholder="Search address">
+          <span class="input-group-btn rounded-0">
+            <button class="btn btn-secondary rounded-0">Go!</button>
+          </span>
+        </section>
+
+        <section id="maps">
+          <ul class="list-group list-group-flush">
+            <template is="dom-repeat" items="{{mapsList}}">
+              <li class="list-group-item">
+                <a href="#[[item.machineName]]" data-toggle="collapse" on-click="handleMapSelect">
+                  [[item.name]]
+                </a>
+                <div id="[[item.machineName]]" class="collapse">
+                  <ul>
+                    <template is="dom-repeat" items="{{item.layers}}" as="layer">
+                      <li>[[layer]]</li>
+                    </template>
+                  </ul>
+                </div>
+              </li>
+            </template>
+          </ul>
+        </section>
+        
+        <footer class="card-body">
+          <a href="#" class="card-link">Help</a>
+          <a href="#" class="card-link">Tour</a>
+        </footer>
+      </main>
+
+      <!--ul id="slide-out" class="side-nav fixed side-bar">
         <li>
           <h1 class="title">City of Garden Grove Public Maps</h1>
         </li>
-        <!--li>
+        <li>
           <div class="card">
             <input type="text">
           </div>
-        </li-->
+        </li>
         <li>
           <ul class="collapsible" data-collapsible="accordion">
             <template is="dom-repeat" items="{{mapsList}}">
               <li>
                 <div class="collapsible-header" on-click="handleMapSelect">
                   [[item.name]]
+                  <input type="radio" name="foo" id="[[item.machineName]]">
+                  <label for="[[item.machineName]]"></label>
                 </div>
                 <div class="collapsible-body">
                   <ul>
@@ -70,7 +120,7 @@ export class LeafletMapSelector extends PolymerElement {
             </template>
           </ul>
         </li>
-      </ul>
+      </ul-->
 
       <button id="basemap-switcher" on-click="switchBasemap">
         Aerial Toggle
