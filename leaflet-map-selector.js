@@ -1,4 +1,5 @@
 import { Element as PolymerElement } from '../../@polymer/polymer/polymer-element.js';
+import '../../@polymer/paper-toggle-button/paper-toggle-button.js';
 
 import { LeafletMap } from '../../@ggcity/leaflet-map/leaflet-map.js';
 import { LeafletWMSGroup } from '../../@ggcity/leaflet-wms/leaflet-wms-group.js';
@@ -36,15 +37,27 @@ export class LeafletMapSelector extends PolymerElement {
           font-weight: 900;
         }
 
-        section#maps {
+        section#overlays {
           overflow: auto;
           padding-bottom: 5px;
         }
 
+        section#overlays li.list-group-item {
+          cursor: pointer;
+        }
+
+        section#overlays li.list-group-item:hover {
+          background-color: #eeeeee;
+        }
+
+        section#overlays .overlay-item > paper-toggle-button {
+          float: right;
+        }
+
         button#basemap-switcher {
           position: absolute;
-          bottom: 15px;
-          right: 15px;
+          bottom: 30px;
+          right: 30px;
           width: 160px;
           height: 90px;
           background-color: pink;
@@ -66,13 +79,14 @@ export class LeafletMapSelector extends PolymerElement {
           </span>
         </section>
 
-        <section id="maps">
+        <section id="overlays">
           <ul class="list-group list-group-flush">
             <template is="dom-repeat" items="{{mapsList}}">
               <li class="list-group-item">
-                <a href="#[[item.machineName]]" data-toggle="collapse" on-click="handleMapSelect">
+                <div class="overlay-item" on-click="handleMapSelect">
                   [[item.name]]
-                </a>
+                  <paper-toggle-button id="[[item.machineName]]-toggle" checked="[[_isCurrentOverlay(item.machineName)]]"></paper-toggle-button>
+                </div>
                 <div id="[[item.machineName]]" class="collapse">
                   <ul>
                     <template is="dom-repeat" items="{{item.layers}}" as="layer">
@@ -243,36 +257,28 @@ export class LeafletMapSelector extends PolymerElement {
   connectedCallback() {
     super.connectedCallback();
 
-    // this.drawer = new MDCPersistentDrawer(this.shadowRoot.querySelector('.mdc-persistent-drawer'));
-    // this.drawer.open = true;
-
-    // // FIXME: hacky way to get ripple attached
-    // this.shadowRoot.addEventListener("dom-change", function(event){
-    //   if (this._rippleInitialized) return;
-
-    //   let rippleNodes = this.shadowRoot.querySelectorAll('.ripple');
-    //   for (let i = 0; i < rippleNodes.length; i++) {
-    //     new MDCRipple(rippleNodes[i]);
-    //     this._rippleInitialized = true;
-    //   }
-    // }.bind(this));
-
     // FIXME: hacky hardcoded initial view
     this._selectedBasemap = 0;
     this.baseSource = this.baseMaps[0].source;
     this.baseFormat = this.baseMaps[0].format;
     this.baseLayers = this.baseMaps[0].layers;
-    this.overlaySource = this.mapsList[0].source;
-    this.overlayLayers = this.mapsList[0].layers;
+
+    this._selectedOverlay = this.mapsList[0];
+    this.overlaySource = this._selectedOverlay.source;
+    this.overlayLayers = this._selectedOverlay.layers;
   }
 
   handleMapSelect(event) {
-    let selectedMap = event.model.item;
-    this.overlaySource = selectedMap.source;
-    this.overlayLayers = selectedMap.layers;
+    this.shadowRoot.querySelector(`#${this._selectedOverlay.machineName}-toggle`).checked = false;
 
-    if (selectedMap.resetViewOnSelect) {
-      this.map.flyTo(selectedMap.initialCenter, selectedMap.initialZoom);
+    this._selectedOverlay = event.model.item;
+    this.overlaySource = this._selectedOverlay.source;
+    this.overlayLayers = this._selectedOverlay.layers;
+    this.shadowRoot.querySelector(`#${this._selectedOverlay.machineName}-toggle`).checked = true;
+
+
+    if (this._selectedOverlay.resetViewOnSelect) {
+      this.map.flyTo(this._selectedOverlay.initialCenter, this._selectedOverlay.initialZoom);
     }
   }
 
@@ -281,6 +287,11 @@ export class LeafletMapSelector extends PolymerElement {
     this.baseSource = this.baseMaps[idx].source;
     this.baseFormat = this.baseMaps[idx].format;
     this.baseLayers = this.baseMaps[idx].layers;
+  }
+
+  _isCurrentOverlay(overlayName) {
+    console.log('current called');
+    return this._selectedOverlay.machineName === overlayName;
   }
 }
 

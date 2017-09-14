@@ -10,6 +10,7 @@
   "dependencies": {
     "@ggcity/leaflet-map": "^0.2.0",
     "@ggcity/leaflet-wms": "^0.2.0",
+    "@polymer/paper-toggle-button": "PolymerElements/paper-toggle-button#3.0-preview",
     "@polymer/polymer": "next",
     "material-components-web": "^0.20.0",
     "materialize-css": "^0.100.2"
