@@ -12,34 +12,28 @@ This currently comes in as pure ES6 only.
 Usage
 -----
 
-```html
-<script type="module" src="./node_modules/@ggcity/leaflet-map/leaflet-map.js"></script>
-<script type="module" src="./node_modules/@ggcity/leaflet-tile-layer/leaflet-tile-layer.js"></script>
-<script type="module" src="./node_modules/@ggcity/leaflet-wms/leaflet-wms-group.js"></script>
+Coming soon!
 
-<leaflet-map
-  latitude="33.778724"
-  longitude="-117.960058"
-  zoom="13"
-  min-zoom="11"
-  max-zoom="19"
-  attribution-prefix="City of Garden Grove">
 
-  <leaflet-tile-layer
-    base
-    url="//www.ci.garden-grove.ca.us/tileserver/styles/gg-basic/{z}/{x}/{y}.png"
-    attribution="&copy; OpenStreetMap">
-  </leaflet-tile-layer>
+TODO
+----
 
-  <leaflet-wms-group
-    source="//www.ci.garden-grove.ca.us/geoserver/gis/wms"
-    layers='["gis:city_council_districts", "gis:flood_hazard_area"]'
-    transparent
-    format="image/png">
-  </leaflet-wms-group>
-
-</leaflet-map>
-```
+* Write tests!
+* Write usage README
+* Rename project
+* Download interface
+* Mobile view
+* Address search and markers
+* Flat view of layers
+* Fix tile layer loading (should disconnect component, not refresh layer)
+* Fetch layers in YAML instead of hard-coding them
+* Fetch URL should be an element's property
+* Tour
+* Aerial toggle button image
+* Primary color and page title should be also property of this element
+* Decouple leaflet-map elements from this element, if possible!
+* Comment code
+* (Optional) Sync aerial toggle to map pan / zoom
 
 Maintainers
 -----------
