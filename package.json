@@ -1,6 +1,6 @@
 {
   "name": "@ggcity/leaflet-map-selector",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "UI for switching groups of map overlays",
   "main": "index.js",
   "repository": "https://github.com/ggcity/leaflet-map-selector",
