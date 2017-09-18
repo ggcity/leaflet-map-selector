@@ -19,17 +19,18 @@ TODO
 ----
 
 Features:
-* Download interface
+* ~~Download interface~~
 * Mobile view
 * Accessibility
 * Address search and markers
 * Flat view of layers
-* Fetch layers in YAML instead of hard-coding them
-* Fetch URL should be an element's property
+* ~~Fetch layers in YAML instead of hard-coding them~~
+* ~~Fetch URL should be an element's property~~
 * Primary color and page title should be also property of this element
 * Tour
-* Aerial toggle button image
+* ~~Aerial toggle button image~~
 * Smooth accordion animation for sublayers
+* ~~Fetch external HTML~~
 * (Optional) Sync aerial toggle to map pan / zoom
 * (Optional) Get feature info about how many features before download
 

@@ -10,9 +10,8 @@ module.exports = {
   resolve: {
     alias: {
       '../../@polymer': '/var/www/html/@ggcity/leaflet-map-selector/node_modules/@polymer',
-      '../../@material': '/var/www/html/@ggcity/leaflet-map-selector/node_modules/@material',
-      '../../material-components-web': '/var/www/html/@ggcity/leaflet-map-selector/node_modules/material-components-web',
-      '../../leaflet': '/var/www/html/@ggcity/leaflet-map-selector/node_modules/leaflet'
+      '../../leaflet': '/var/www/html/@ggcity/leaflet-map-selector/node_modules/leaflet',
+      '../../js-yaml': '/var/www/html/@ggcity/leaflet-map-selector/node_modules/js-yaml'
     }
   },
   module: {
@@ -34,6 +33,12 @@ module.exports = {
         test: /\.json$/,
         use: [
           'json-loader'
+        ]
+      },
+      {
+        test: /\.html$/,
+        use: [
+          'raw-loader'
         ]
       }
     ]
