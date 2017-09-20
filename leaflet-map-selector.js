@@ -167,7 +167,7 @@ export class LeafletMapSelector extends PolymerElement {
   }
 
   _overlayItemClass(selected, item) {
-    let defaultClass = "overlay-item d-flex justify-content-between";
+    let defaultClass = "overlay-item d-flex justify-content-start";
     if (selected === item) return defaultClass + ' selected';
     return defaultClass;
   }

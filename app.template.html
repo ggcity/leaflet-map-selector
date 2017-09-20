@@ -17,6 +17,16 @@
     box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14),0 3px 14px 2px rgba(0,0,0,0.12),0 5px 5px -3px rgba(0,0,0,0.3);
   }
 
+  a {
+    color: var(--primary-color, inherit);
+  }
+
+  .btn-primary {
+    color: #fff;
+    background-color: var(--primary-color, inherit);
+    border-color: var(--primary-color, inherit);
+  }
+
   header#page-title {
     padding: 10px;
     background-color: var(--primary-color);
@@ -49,7 +59,7 @@
   }
 
   section#overlays .overlay-item.selected {
-    background-color: #eee;
+    background-color: #ddd;
     color: var(--primary-color);
     
     /* left border and offset text back */
@@ -60,8 +70,8 @@
   ul.overlay-layers > li.list-group-item {
     border: 0;
     border-left: 0.25rem solid var(--primary-color);
-    padding-left: 1rem;
-    background-color: #fafafa;
+    padding-left: 1.75rem;
+    background-color: #eee;
     cursor: pointer;
   }
 
@@ -87,9 +97,27 @@
     overflow: auto;
     text-align: justify;
   }
+
+  .show-mobile {
+    display: none;
+  }
+
+  @media (max-width: 600px) {
+    main {
+      right: 30px;
+      left: 30px;
+      top: 30px;
+      bottom: 30px;
+      width: unset;
+    }
+
+    .show-mobile {
+      display: block;
+    }
+  }
 </style>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+<!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"-->
 
 <main class="card">
   <header id="page-title" class="card-img-top d-flex align-items-end">
@@ -115,8 +143,8 @@
 
           <!-- Main overlay toggle -->
           <div title="[[item.description]]" class$="[[_overlayItemClass(selectedOverlay, item)]]" on-click="overlaySelect">
-            <span>[[item.name]]</span>
             <paper-toggle-button checked="[[_isCurrentOverlay(selectedOverlay, item)]]"></paper-toggle-button>
+            <span>[[item.name]]</span>
           </div>
 
           <div class$="[[_overlayLayersShow(selectedOverlay, item)]]">
@@ -124,23 +152,23 @@
 
               <!-- Exclusive layers -->
               <template is="dom-repeat" items="{{item.layers.exclusives}}" as="layer">
-                <li class="list-group-item d-flex justify-content-between" on-click="exclusiveSelect">
-                  <span>
-                    <a on-click="downloadLayer"><i class="fa fa-fw fa-download"></i></a>
+                <li class="list-group-item d-flex justify-content-start" on-click="exclusiveSelect">
+                  <paper-toggle-button class="overlay-layers-toggle" checked="[[_isCurrentExclusive(layer, wmsLayers)]]"></paper-toggle-button>
+                  <span class="mr-auto">
                     [[layer.name]]
                   </span>
-                  <paper-toggle-button class="overlay-layers-toggle" checked="[[_isCurrentExclusive(layer, wmsLayers)]]"></paper-toggle-button>
+                  <a href="#" on-click="downloadLayer" class="justify-self-end"><i title="Download [[layer.name]]" class="fa fa-fw fa-download"></i></a>                  
                 </li>
               </template>
               
               <!-- Optional layers -->
               <template is="dom-repeat" items="{{item.layers.optionals}}" as="layer">
-                <li class="list-group-item d-flex justify-content-between" on-click="optionalSelect">
-                  <span>
-                    <a on-click="downloadLayer"><i class="fa fa-fw fa-download"></i></a>
+                <li class="list-group-item d-flex justify-content-start" on-click="optionalSelect">
+                  <paper-toggle-button class="overlay-layers-toggle" checked="[[layer.visible]]"></paper-toggle-button>
+                  <span class="mr-auto">
                     [[layer.name]]
                   </span>
-                  <paper-toggle-button class="overlay-layers-toggle" checked="[[layer.visible]]"></paper-toggle-button>
+                  <a href="#" on-click="downloadLayer" class="justify-self-end"><i title="Download [[layer.name]]" class="fa fa-fw fa-download"></i></a>
                 </li>
               </template>
               
@@ -154,8 +182,11 @@
   </section>
   
   <footer class="card-body">
-    <a href="#" class="card-link">Help</a>
-    <a href="#" class="card-link">Tour</a>
+    <a href="#" class="btn btn-link">Help</a>
+    <a href="#" class="btn btn-link">Tour</a>
+    <div class="pull-right show-mobile">
+      <a href="#" class="btn btn-primary">Close</a>
+    </div>
   </footer>
 </main>
 
@@ -169,7 +200,6 @@
   zoom="13"
   min-zoom="11"
   max-zoom="19"
-  zoom-control="false"
   attribution-prefix="City of Garden Grove">
 
   <leaflet-tile-layer
