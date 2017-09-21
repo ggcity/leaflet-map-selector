@@ -26,7 +26,7 @@ Features:
 * Flat view of layers
 * ~~Fetch layers in YAML instead of hard-coding them~~
 * ~~Fetch URL should be an element's property~~
-* Primary color and page title should be also property of this element
+* Page title should be also property of this element
 * Tour
 * ~~Aerial toggle button image~~
 * Smooth accordion animation for sublayers

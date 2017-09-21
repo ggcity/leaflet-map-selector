@@ -15,6 +15,8 @@
 
     background-color: #fff;
     box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14),0 3px 14px 2px rgba(0,0,0,0.12),0 5px 5px -3px rgba(0,0,0,0.3);
+
+    transition: transform 175ms;
   }
 
   a {
@@ -79,17 +81,25 @@
     --primary-color: var(--secondary-color);
   }
 
-  button#basemap-switcher {
+  button#basemap-switcher, button#layers-menu-toggle {
     position: absolute;
-    bottom: 30px;
     right: 30px;
     width: 160px;
     height: 90px;
     z-index: 1001;
-    background-image: url('./aerial.png');
     border: 5px solid #ffffff;
     box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14),0 3px 14px 2px rgba(0,0,0,0.12),0 5px 5px -3px rgba(0,0,0,0.3);
     cursor: pointer;
+  }
+
+  button#basemap-switcher {
+    background-image: url('./aerial.png');
+    bottom: 30px;
+  }
+
+  button#layers-menu-toggle {
+    display: none;
+    bottom: 130px;
   }
 
   section#download-disclaimer {
@@ -109,17 +119,29 @@
       top: 30px;
       bottom: 30px;
       width: unset;
+      transform: scale(0);
+    }
+
+    main.show {
+      transform: scale(1);
     }
 
     .show-mobile {
       display: block;
+    }
+
+    button#basemap-switcher, button#layers-menu-toggle {
+      display: block;
+      width: 90px;
+      height: 90px;
+      border-radius: 90px;
     }
   }
 </style>
 
 <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"-->
 
-<main class="card">
+<main id="layers-menu" class="card">
   <header id="page-title" class="card-img-top d-flex align-items-end">
     <h1 class="h2">City of Garden Grove Public Maps</h1>
   </header>
@@ -185,13 +207,19 @@
     <a href="#" class="btn btn-link">Help</a>
     <a href="#" class="btn btn-link">Tour</a>
     <div class="pull-right show-mobile">
-      <a href="#" class="btn btn-primary">Close</a>
+      <a href="#" class="btn btn-primary" on-click="toggleLayersMenu">
+        <i class="fa fa-map"></i>
+        View Map
+      </a>
     </div>
   </footer>
 </main>
 
 <!-- Basemap toggle button -->
 <button id="basemap-switcher" on-click="switchBasemap"></button>
+
+<!-- Layers control menu (mobile only) -->
+<button id="layers-menu-toggle" class="btn btn-primary" on-click="toggleLayersMenu"><i class="fa fa-map fa-3x"></i></button>
 
 <leaflet-map
   map="{{map}}"

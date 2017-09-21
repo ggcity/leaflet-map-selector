@@ -75,6 +75,11 @@ export class LeafletMapSelector extends PolymerElement {
 
     this.overlaySelect();
   }
+
+  toggleLayersMenu() {
+    let layersMenu = this.shadowRoot.querySelector('main#layers-menu');
+    layersMenu.classList.toggle('show');
+  }
   
   // FIXE: Achtung! Uber hacky!!!
   switchBasemap(event) {
