@@ -20,7 +20,7 @@ TODO
 
 Features:
 * ~~Download interface~~
-* Mobile view
+* ~~Mobile view~~
 * Accessibility
 * Address search and markers
 * Flat view of layers
@@ -31,24 +31,25 @@ Features:
 * ~~Aerial toggle button image~~
 * Smooth accordion animation for sublayers
 * ~~Fetch external HTML~~
+* Permalink
 * (Optional) Sync aerial toggle to map pan / zoom
 * (Optional) Get feature info about how many features before download
 
 Bugs:
 * Fix tile layer loading (should disconnect component, not refresh layer)
-* Fix Chrome
+* ~~Fix Chrome~~
 * Map toggle should not be able to untoggle visually
 
 Project tasks:
 * Write tests!
 * Write usage README
 * Rename project
-* Babel
-* Production build
+* ~~Babel~~
+* ~~Production build~~
 * Decouple leaflet-map elements from this element, if possible!
 * Comment code
 * Publish on NPM
-* Create a GitHub Pages
+* ~~Create a GitHub Pages~~
 
 Maintainers
 -----------
