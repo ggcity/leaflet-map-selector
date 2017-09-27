@@ -4,6 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "babel-loader": "^7.1.2",
+    "babel-minify-webpack-plugin": "^0.2.0",
+    "babel-preset-env": "^1.6.0",
     "clean-webpack-plugin": "^0.1.16",
     "css-loader": "^0.28.7",
     "file-loader": "^0.11.2",
