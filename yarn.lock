@@ -2,6 +2,29 @@
 # yarn lockfile v1
 
 
+"@ggcity/leaflet-map@0.4.0", "@ggcity/leaflet-map@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@ggcity/leaflet-map/-/leaflet-map-0.4.0.tgz#b80fccc677fb78f7272635f3c2d2dd78ffb69a10"
+  dependencies:
+    "@polymer/polymer" next
+    leaflet "^1.2.0"
+
+"@ggcity/leaflet-tile-layer@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@ggcity/leaflet-tile-layer/-/leaflet-tile-layer-0.4.0.tgz#77b3446fb17b01320193bd83e9401268e63aea7a"
+  dependencies:
+    "@ggcity/leaflet-map" "0.4.0"
+    "@polymer/polymer" next
+    leaflet "^1.2.0"
+
+"@ggcity/leaflet-wms@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@ggcity/leaflet-wms/-/leaflet-wms-0.4.0.tgz#4e7b061fc6430d1b7c482aea335733148e16386e"
+  dependencies:
+    "@ggcity/leaflet-map" "0.4.0"
+    "@polymer/polymer" next
+    leaflet "^1.2.0"
+
 "@polymer/font-roboto@^3.0.0-pre.1":
   version "3.0.0-pre.1"
   resolved "https://registry.yarnpkg.com/@polymer/font-roboto/-/font-roboto-3.0.0-pre.1.tgz#3b989a3b7c7d7351d4d816f8136d708512b0bd10"
@@ -85,7 +108,7 @@
     "@polymer/paper-styles" "^3.0.0-pre.1"
     "@polymer/polymer" "^3.0.0-pre.1"
 
-"@polymer/polymer@3.0.0-pre.1", "@polymer/polymer@^3.0.0-pre.1":
+"@polymer/polymer@3.0.0-pre.1", "@polymer/polymer@^3.0.0-pre.1", "@polymer/polymer@next":
   version "3.0.0-pre.1"
   resolved "https://registry.yarnpkg.com/@polymer/polymer/-/polymer-3.0.0-pre.1.tgz#9fc26b5259aad9265f324ced02de715991d2eabe"
   dependencies:

@@ -9,13 +9,27 @@ module.exports = {
   },
   resolve: {
     alias: {
-      '../../@polymer': '/var/www/html/@ggcity/leaflet-map-selector/node_modules/@polymer',
-      '../../leaflet': '/var/www/html/@ggcity/leaflet-map-selector/node_modules/leaflet',
-      '../../js-yaml': '/var/www/html/@ggcity/leaflet-map-selector/node_modules/js-yaml'
+      '../../@ggcity' : path.resolve(__dirname, '../node_modules/@ggcity'),
+      '../../@polymer': path.resolve(__dirname, '../node_modules/@polymer'),
+      '../../leaflet':  path.resolve(__dirname, '../node_modules/leaflet'),
+      '../../js-yaml':  path.resolve(__dirname, '../node_modules/js-yaml')
     }
   },
   module: {
     rules: [
+      { 
+        test: /\.js$/, 
+        loader: "babel-loader",
+        include: [
+          path.join(__dirname, '..'),
+          /\/node_modules\/@polymer/
+        ],
+        options: {
+          presets: [
+            'babel-preset-env'
+          ].map(require.resolve)
+        }
+      },
       {
         test: /\.css$/,
         use: [
